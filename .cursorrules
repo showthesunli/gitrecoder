@@ -27,6 +27,20 @@
             "bad": "// Calculate sum",
             "good": "// 计算两数之和"
           }
+        },
+        {
+          "name": "use-fabric-fabricimage",
+          "description": "必须使用新版FabricImage代替旧版Image类",
+          "level": "error",
+          "check": {
+            "no": ["fabric.Image"],
+            "recommended": ["fabric.FabricImage"],
+            "note": "自fabric 5.x版本起，Image类已重构为FabricImage导出"
+          },
+          "example": {
+            "bad": "new fabric.Image(element, options)",
+            "good": "new fabric.FabricImage(element, options)"
+          }
         }
       ]
     }
