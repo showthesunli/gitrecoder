@@ -26,6 +26,18 @@ export const handleScreenCaptureClick = async (canvas: fabric.Canvas) => {
   try {
     const video = await createScreenCaptureVideo({ controls: false, muted: true });
     const videoImage = createVideoImageObject(video);
+
+    // 添加视频流结束监听器
+    const videoTrack = video.srcObject?.getVideoTracks()[0];
+    videoTrack?.addEventListener('ended', () => {
+      // 移除画布中的视频图像对象
+      canvas.remove(videoImage);
+      // 触发画布重新渲染
+      canvas.requestRenderAll();
+      // 清理视频资源
+      video.srcObject = null;
+    });
+
     canvas.add(videoImage);
     startRenderLoop(canvas);
   } catch (error) {
