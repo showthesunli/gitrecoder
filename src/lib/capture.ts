@@ -57,6 +57,13 @@ export async function createScreenCaptureVideo(
     const stream = await captureScreen();
     video.srcObject = stream;
 
+    // Wait for video metadata to load
+    await new Promise(resolve => video.addEventListener('loadedmetadata', resolve, { once: true }));
+    
+    // Set video dimensions (fixed width 500, height proportional)
+    video.width = 500;
+    video.height = 500 * (video.videoHeight / video.videoWidth);
+
     // Automatically clean up resources when stream ends
     stream.getVideoTracks()[0].addEventListener("ended", () => {
       video.srcObject = null;
