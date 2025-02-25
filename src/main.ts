@@ -38,7 +38,7 @@ const calculateZoom = (currentZoom: number, delta: number): number => {
  * @param canvas Fabric画布实例
  * @returns 配置好的滚轮事件处理器
  */
-const createWheelHandler = (canvas: fabric.Canvas) => (opt: fabric.IEvent<WheelEvent>) => {
+const createWheelHandler = (canvas: fabric.Canvas) => (opt: fabric.TEvent<WheelEvent>) => {
   const { deltaY: delta, offsetX, offsetY } = opt.e;
   const zoomPoint = new fabric.Point(offsetX, offsetY);
   
