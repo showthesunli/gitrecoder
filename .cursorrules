@@ -66,18 +66,25 @@
       "rules": [
         {
           "name": "module-description",
-          "description": "每个TypeScript模块文件必须包含顶部模块说明注释",
-          "level": "warning",
+          "description": "TypeScript模块必须使用TSDoc规范的中文注释",
+          "level": "error",
           "check": {
             "require": [
               "file-top-comment",
-              "chinese-characters-in-comments"
+              "chinese-characters-in-comments",
+              "tsdoc-syntax"
             ],
-            "format": "/** 模块说明注释块 */"
+            "format": "/\\*\\*\\s*\\n(\\s*\\*\\s.*\\n)+\\s*\\*/",
+            "tsdoc-rules": [
+              "remarks-tag",
+              "param-tag-with-type",
+              "returns-tag",
+              "example-tag"
+            ]
           },
           "example": {
-            "bad": "// 工具函数\nconst add = () => ...",
-            "good": "/**\n * 数学计算工具模块\n * 包含基础算术运算函数\n */\nconst add = () => ..."
+            "bad": "// 创建视频元素\nconst createVideo = () => ...",
+            "good": "/**\n * 创建屏幕捕捉视频元素\n * @remarks 使用浏览器原生API获取屏幕内容\n * @param options - 视频配置选项 {@link MediaTrackConstraints}\n * @returns 包含媒体流的HTMLVideoElement Promise\n * @example\n * ```ts\n * createScreenCaptureVideo()\n *  .then(video => document.body.appendChild(video))\n * ```\n */\nconst createScreenCaptureVideo = async (options?: MediaTrackConstraints) => {...}"
           }
         }
       ]
