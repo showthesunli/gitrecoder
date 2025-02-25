@@ -1,28 +1,28 @@
 /**
- * 捕获屏幕内容并返回媒体流
+ * Capture screen content and return media stream
  * 
  * @remarks
- * 使用浏览器getDisplayMedia API实现屏幕捕获，默认配置30fps视频且不包含音频
+ * Uses browser's getDisplayMedia API for screen capture, defaults to 30fps video without audio
  * 
- * @returns 包含屏幕内容的媒体流Promise
- * @throws 当浏览器不支持屏幕捕获或用户拒绝权限时抛出错误
+ * @returns Promise with media stream containing screen content
+ * @throws Error when browser doesn't support screen capture or user denies permission
  */
 export async function captureScreen(): Promise<MediaStream> {
   try {
-    // 检查浏览器是否支持屏幕捕获API
+    // Check if browser supports screen capture API
     if (!navigator.mediaDevices?.getDisplayMedia) {
       throw new Error('Screen capture not supported');
     }
 
-    // 请求屏幕共享权限并获取媒体流
+    // Request screen sharing permission and get media stream
     return await navigator.mediaDevices.getDisplayMedia({
       video: {
-        frameRate: 30 // 设置理想帧率为30fps（实际帧率取决于系统和硬件限制）
+        frameRate: 30 // Set ideal frame rate to 30fps (actual rate depends on system and hardware)
       },
-      audio: false // 明确禁用音频捕获
+      audio: false // Explicitly disable audio capture
     });
   } catch (error) {
-    // 将原始错误转换为更友好的错误信息
+    // Convert original error to more friendly error message
     throw new Error(`Screen capture failed: ${
       error instanceof Error ? error.message : String(error)
     }`);
@@ -30,10 +30,10 @@ export async function captureScreen(): Promise<MediaStream> {
 }
 
 /**
- * 创建并配置用于显示屏幕捕获流的视频元素
+ * Create and configure video element for displaying screen capture stream
  * 
- * @param options 视频元素配置选项
- * @returns 已绑定屏幕捕获流的视频元素Promise
+ * @param options Video element configuration options
+ * @returns Promise with video element bound to screen capture stream
  * 
  * @example
  * createScreenCaptureVideo().then(video => {
@@ -45,24 +45,24 @@ export async function createScreenCaptureVideo(
 ): Promise<HTMLVideoElement> {
   const video = document.createElement('video');
   
-  // 设置默认视频属性（自动播放且静音以避免浏览器策略限制）
+  // Set default video properties (autoplay and muted to avoid browser policy restrictions)
   video.autoplay = options.autoplay ?? true;
   video.controls = options.controls ?? false;
   video.muted = options.muted ?? true;
 
   try {
-    // 获取屏幕捕获流并绑定到视频元素
+    // Get screen capture stream and bind to video element
     const stream = await captureScreen();
     video.srcObject = stream;
     
-    // 在流停止时自动清理资源
+    // Automatically clean up resources when stream ends
     stream.getVideoTracks()[0].addEventListener('ended', () => {
       video.srcObject = null;
     });
 
     return video;
   } catch (error) {
-    // 捕获失败时移除视频引用
+    // Remove video reference if capture fails
     video.remove();
     throw error;
   }

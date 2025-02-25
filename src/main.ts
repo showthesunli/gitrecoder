@@ -27,9 +27,9 @@ document
         fabric.util.requestAnimFrame(render);
       });
     } catch (error) {
-      console.error("添加屏幕捕获失败:", error);
+      console.error("Oops, screen capture failed:", error);
       alert(
-        `屏幕捕获失败: ${error instanceof Error ? error.message : "未知错误"}`
+        `Whoops! Screen capture failed: ${error instanceof Error ? error.message : "unknown error"}`
       );
     }
   });
