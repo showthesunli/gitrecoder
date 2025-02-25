@@ -14,11 +14,9 @@ document
       });
 
       const videoImage = new fabric.FabricImage(video, {
-        originX: "center",
-        originY: "center",
+        width: video.videoWidth,
+        height: video.videoHeight,
         objectCaching: false,
-        scaleX: 0.5,
-        scaleY: 0.5,
       });
 
       canvas.add(videoImage);
@@ -29,7 +27,9 @@ document
     } catch (error) {
       console.error("Oops, screen capture failed:", error);
       alert(
-        `Whoops! Screen capture failed: ${error instanceof Error ? error.message : "unknown error"}`
+        `Whoops! Screen capture failed: ${
+          error instanceof Error ? error.message : "unknown error"
+        }`
       );
     }
   });
