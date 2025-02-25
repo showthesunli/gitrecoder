@@ -27,7 +27,7 @@ const clipPath1 = new fabric.Circle({
 img.clipPath = clipPath1;
 canvas.add(img);
 
-document.getElementById('addScreenCapture').addEventListener('click', async () => {
+document.getElementById('addScreenCapture')!.addEventListener('click', async () => {
   try {
     const video = await createScreenCaptureVideo({
       controls: true,
@@ -37,8 +37,8 @@ document.getElementById('addScreenCapture').addEventListener('click', async () =
     const videoImage = await fabric.FabricImage.fromElement(video, {
       left: 100,
       top: 100,
-      originX: 'center',
-      originY: 'center',
+      originX: 'center' as const,
+      originY: 'center' as const,
       angle: 15,
       scaleX: 0.5,
       scaleY: 0.5
@@ -48,6 +48,6 @@ document.getElementById('addScreenCapture').addEventListener('click', async () =
     canvas.requestRenderAll();
   } catch (error) {
     console.error('添加屏幕捕获失败:', error);
-    alert('屏幕捕获失败: ' + error.message);
+    alert(`屏幕捕获失败: ${error instanceof Error ? error.message : '未知错误'}`);
   }
 });
