@@ -23,6 +23,32 @@ declare module "fabric" {
 import { handleScreenCaptureClick, exportToGIF } from "./lib/screen-capture";
 
 /**
+ * 纯函数缩放计算器
+ * @param currentZoom 当前缩放比例
+ * @param delta 滚轮变化量
+ * @returns 计算后的新缩放比例
+ */
+const calculateZoom = (currentZoom: number, delta: number): number => {
+  const newZoom = currentZoom * (0.999 ** delta);
+  return Math.min(Math.max(newZoom, 0.01), 20);
+};
+
+/**
+ * 创建滚轮事件处理器
+ * @param canvas Fabric画布实例
+ * @returns 配置好的滚轮事件处理器
+ */
+const createWheelHandler = (canvas: fabric.Canvas) => (opt: fabric.IEvent<WheelEvent>) => {
+  const { deltaY: delta, offsetX, offsetY } = opt.e;
+  const zoomPoint = new fabric.Point(offsetX, offsetY);
+  
+  canvas.zoomToPoint(zoomPoint, calculateZoom(canvas.getZoom(), delta));
+  
+  opt.e.preventDefault();
+  opt.e.stopPropagation();
+};
+
+/**
  * 初始化并返回Fabric画布实例
  * @returns 配置完成的Fabric画布实例 {@link fabric.Canvas}
  * @remarks
@@ -38,17 +64,7 @@ import { handleScreenCaptureClick, exportToGIF } from "./lib/screen-capture";
  */
 const initializeCanvas = (): fabric.Canvas => {
   const canvas = new fabric.Canvas("c");
-
-  canvas.on("mouse:wheel", function (opt) {
-    let delta = opt.e.deltaY;
-    let zoom = canvas.getZoom();
-    zoom *= 0.999 ** delta;
-    if (zoom > 20) zoom = 20;
-    if (zoom < 0.01) zoom = 0.01;
-    canvas.zoomToPoint(new fabric.Point(opt.e.offsetX, opt.e.offsetY), zoom);
-    opt.e.preventDefault();
-    opt.e.stopPropagation();
-  });
+  canvas.on("mouse:wheel", createWheelHandler(canvas));
   return canvas;
 };
 
