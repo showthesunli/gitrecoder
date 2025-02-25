@@ -12,6 +12,14 @@
 
 import "./style.css";
 import * as fabric from "fabric";
+
+declare module "fabric" {
+  interface Canvas {
+    isDragging?: boolean;
+    lastPosX?: number;
+    lastPosY?: number;
+  }
+}
 import { handleScreenCaptureClick } from "./lib/screen-capture";
 
 /**
@@ -21,7 +29,7 @@ import { handleScreenCaptureClick } from "./lib/screen-capture";
  * 使用默认配置初始化画布：
  * - 绑定到ID为'c'的DOM元素
  * - 启用默认交互模式
- * 
+ *
  * @example
  * ```typescript
  * const canvas = initializeCanvas();
@@ -29,7 +37,19 @@ import { handleScreenCaptureClick } from "./lib/screen-capture";
  * ```
  */
 const initializeCanvas = (): fabric.Canvas => {
-  return new fabric.Canvas("c");
+  const canvas = new fabric.Canvas("c");
+
+  canvas.on("mouse:wheel", function (opt) {
+    let delta = opt.e.deltaY;
+    let zoom = canvas.getZoom();
+    zoom *= 0.999 ** delta;
+    if (zoom > 20) zoom = 20;
+    if (zoom < 0.01) zoom = 0.01;
+    canvas.zoomToPoint(new fabric.Point(opt.e.offsetX, opt.e.offsetY), zoom);
+    opt.e.preventDefault();
+    opt.e.stopPropagation();
+  });
+  return canvas;
 };
 
 /**
@@ -40,7 +60,7 @@ const initializeCanvas = (): fabric.Canvas => {
  * 2. 获取UI元素引用
  * 3. 绑定事件监听器
  * 4. 完成启动准备
- * 
+ *
  * @example
  * ```typescript
  * // 应用入口文件
@@ -50,9 +70,11 @@ const initializeCanvas = (): fabric.Canvas => {
 const main = () => {
   const canvas = initializeCanvas();
   const captureButton = document.getElementById("addScreenCapture");
-  
+
   if (captureButton) {
-    captureButton.addEventListener("click", () => handleScreenCaptureClick(canvas));
+    captureButton.addEventListener("click", () =>
+      handleScreenCaptureClick(canvas)
+    );
   }
 };
 
