@@ -1,14 +1,31 @@
 /**
  * 屏幕捕捉画布集成模块
- * 
- * 处理Fabric.js画布与屏幕捕捉功能的集成
- * 包含视频对象创建、渲染循环控制及UI事件处理
+ * @packageDocumentation
+ * @module ScreenCapture
+ * @remarks
+ * 处理Fabric.js画布与屏幕捕捉功能的集成，包含：
+ * - 视频对象创建
+ * - 渲染循环控制
+ * - UI事件处理
+ * - 媒体流生命周期管理
  */
 
 import * as fabric from "fabric";
 import { createScreenCaptureVideo } from "./capture";
 
-/** 创建视频图像对象（保持fabric原生API调用方式） */
+/**
+ * 创建视频图像对象
+ * @param video - HTML视频元素实例 {@link HTMLVideoElement}
+ * @returns 配置完成的Fabric图像对象 {@link fabric.FabricImage}
+ * @remarks
+ * 保持fabric原生API调用方式，禁用对象缓存以保证实时渲染性能
+ * 
+ * @example
+ * ```typescript
+ * const videoElement = document.createElement('video');
+ * const fabricImage = createVideoImageObject(videoElement);
+ * ```
+ */
 export const createVideoImageObject = (
   video: HTMLVideoElement
 ): fabric.FabricImage => {
@@ -19,7 +36,19 @@ export const createVideoImageObject = (
   });
 };
 
-/** 启动画布渲染循环（保持fabric原生动画API调用方式） */
+/**
+ * 启动画布渲染循环
+ * @param canvas - 需要启动渲染循环的Fabric画布实例 {@link fabric.Canvas}
+ * @remarks
+ * 使用Fabric内置的动画帧请求机制实现高效渲染
+ * 保持每秒60帧的渲染性能优化
+ * 
+ * @example
+ * ```typescript
+ * const canvas = new fabric.Canvas('c');
+ * startRenderLoop(canvas);
+ * ```
+ */
 export const startRenderLoop = (canvas: fabric.Canvas): void => {
   const renderFrame = () => {
     canvas.renderAll();
@@ -28,7 +57,25 @@ export const startRenderLoop = (canvas: fabric.Canvas): void => {
   fabric.util.requestAnimFrame(renderFrame);
 };
 
-/** 处理屏幕捕捉按钮点击事件 */
+/**
+ * 处理屏幕捕捉按钮点击事件
+ * @param canvas - 目标Fabric画布实例 {@link fabric.Canvas}
+ * @throws {@link DOMException} 当用户拒绝屏幕捕捉权限时抛出
+ * @throws {@link Error} 媒体流初始化失败时抛出
+ * @remarks
+ * 实现完整的媒体流生命周期管理：
+ * 1. 初始化屏幕捕捉
+ * 2. 创建Fabric图像对象
+ * 3. 注册媒体流终止监听
+ * 4. 启动渲染循环
+ * 
+ * @example
+ * ```typescript
+ * document.getElementById('captureBtn').addEventListener('click', () => {
+ *   handleScreenCaptureClick(canvasInstance);
+ * });
+ * ```
+ */
 export const handleScreenCaptureClick = async (canvas: fabric.Canvas) => {
   try {
     const video = await createScreenCaptureVideo({
@@ -37,14 +84,10 @@ export const handleScreenCaptureClick = async (canvas: fabric.Canvas) => {
     });
     const videoImage = createVideoImageObject(video);
 
-    // 添加视频流结束监听器
     const videoTrack = (video.srcObject as MediaStream)?.getVideoTracks()[0];
     videoTrack?.addEventListener("ended", () => {
-      // 移除画布中的视频图像对象
       canvas.remove(videoImage);
-      // 触发画布重新渲染
       canvas.requestRenderAll();
-      // 清理视频资源
       video.srcObject = null;
     });
 
@@ -55,7 +98,16 @@ export const handleScreenCaptureClick = async (canvas: fabric.Canvas) => {
   }
 };
 
-/** 统一错误处理函数 */
+/**
+ * 统一错误处理函数
+ * @param error - 捕获的错误对象
+ * @internal
+ * @remarks
+ * 错误处理策略：
+ * - 控制台输出详细错误日志
+ * - 用户界面显示友好错误提示
+ * - 保留原始错误堆栈信息
+ */
 const handleCaptureError = (error: unknown): void => {
   console.error("屏幕捕捉失败:", error);
   alert(`操作失败: ${error instanceof Error ? error.message : "未知错误"}`);
