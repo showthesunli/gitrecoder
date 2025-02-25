@@ -70,7 +70,7 @@ const initializeCanvas = (): fabric.Canvas => {
 const main = () => {
   const canvas = initializeCanvas();
   const captureButton = document.getElementById("addScreenCapture");
-  const exportButton = document.getElementById("exportGIF");
+  const exportButton = document.getElementById("exportCanvas2gif");
 
   if (captureButton) {
     captureButton.addEventListener("click", () =>

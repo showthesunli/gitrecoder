@@ -72,7 +72,7 @@ export const exportToGIF = (canvas: fabric.Canvas, duration: number = 3000, fps:
     quality: 10,
     width: canvas.getWidth(),
     height: canvas.getHeight(),
-    workerScript: '/gif.worker.js'
+    workerScript: new URL('gif.js/dist/gif.worker.js', import.meta.url).href
   });
 
   const frameInterval = 1000 / fps;
