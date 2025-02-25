@@ -60,6 +60,27 @@
           }
         }
       ]
+    },
+    {
+      "name": "Documentation Standards",
+      "rules": [
+        {
+          "name": "module-description",
+          "description": "每个TypeScript模块文件必须包含顶部模块说明注释",
+          "level": "warning",
+          "check": {
+            "require": [
+              "file-top-comment",
+              "chinese-characters-in-comments"
+            ],
+            "format": "/** 模块说明注释块 */"
+          },
+          "example": {
+            "bad": "// 工具函数\nconst add = () => ...",
+            "good": "/**\n * 数学计算工具模块\n * 包含基础算术运算函数\n */\nconst add = () => ..."
+          }
+        }
+      ]
     }
   ]
 }
