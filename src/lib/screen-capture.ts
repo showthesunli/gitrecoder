@@ -1,4 +1,9 @@
-// 屏幕捕捉功能模块
+/**
+ * 屏幕捕捉画布集成模块
+ * 
+ * 处理Fabric.js画布与屏幕捕捉功能的集成
+ * 包含视频对象创建、渲染循环控制及UI事件处理
+ */
 
 import * as fabric from "fabric";
 import { createScreenCaptureVideo } from "./capture";

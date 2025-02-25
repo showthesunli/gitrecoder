@@ -1,4 +1,9 @@
-// 主入口模块
+/**
+ * 应用程序主入口模块
+ * 
+ * 负责初始化画布实例、绑定UI事件监听器
+ * 协调各功能模块的初始化及交互
+ */
 
 import "./style.css";
 import * as fabric from "fabric";
