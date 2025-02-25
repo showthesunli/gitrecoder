@@ -1,4 +1,4 @@
-import { fabric } from "fabric";
+import { Canvas } from "fabric";
 
 declare module "fabric" {
   interface Canvas {
@@ -8,6 +8,6 @@ declare module "fabric" {
   }
 }
 
-export const initializeCanvas = (): fabric.Canvas => {
-  return new fabric.Canvas("c");
+export const initializeCanvas = (): Canvas => {
+  return new Canvas("c");
 };
