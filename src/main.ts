@@ -20,7 +20,7 @@ declare module "fabric" {
     lastPosY?: number;
   }
 }
-import { handleScreenCaptureClick } from "./lib/screen-capture";
+import { handleScreenCaptureClick, exportToGIF } from "./lib/screen-capture";
 
 /**
  * 初始化并返回Fabric画布实例
@@ -70,10 +70,17 @@ const initializeCanvas = (): fabric.Canvas => {
 const main = () => {
   const canvas = initializeCanvas();
   const captureButton = document.getElementById("addScreenCapture");
+  const exportButton = document.getElementById("exportGIF");
 
   if (captureButton) {
     captureButton.addEventListener("click", () =>
       handleScreenCaptureClick(canvas)
+    );
+  }
+
+  if (exportButton) {
+    exportButton.addEventListener("click", () =>
+      exportToGIF(canvas)
     );
   }
 };

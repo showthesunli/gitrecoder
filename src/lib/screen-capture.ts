@@ -12,6 +12,7 @@
 
 import * as fabric from "fabric";
 import { createScreenCaptureVideo } from "./capture";
+import GIF from 'gif.js';
 
 /**
  * 创建视频图像对象
@@ -55,6 +56,48 @@ export const startRenderLoop = (canvas: fabric.Canvas): void => {
     fabric.util.requestAnimFrame(renderFrame);
   };
   fabric.util.requestAnimFrame(renderFrame);
+};
+
+/**
+ * 导出画布内容为GIF
+ * @param canvas - 目标Fabric画布实例 {@link fabric.Canvas}
+ * @param duration - GIF持续时间（毫秒）
+ * @param fps - 帧率
+ * @remarks
+ * 使用gif.js库将画布内容导出为GIF动画
+ */
+export const exportToGIF = (canvas: fabric.Canvas, duration: number = 3000, fps: number = 10): void => {
+  const gif = new GIF({
+    workers: 2,
+    quality: 10,
+    width: canvas.getWidth(),
+    height: canvas.getHeight(),
+    workerScript: '/gif.worker.js'
+  });
+
+  const frameInterval = 1000 / fps;
+  const startTime = Date.now();
+
+  const captureFrame = () => {
+    if (Date.now() - startTime < duration) {
+      const canvasElement = canvas.getElement();
+      gif.addFrame(canvasElement, { delay: frameInterval });
+      setTimeout(captureFrame, frameInterval);
+    } else {
+      gif.render();
+    }
+  };
+
+  gif.on('finished', (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'canvas.gif';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  captureFrame();
 };
 
 /**
