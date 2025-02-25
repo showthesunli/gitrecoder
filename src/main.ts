@@ -1,34 +1,27 @@
 import "./style.css";
-import { Canvas, Rect, Circle } from "fabric";
+import * as fabric from "fabric";
 
-const canvas = new Canvas("c");
+const canvas = new fabric.Canvas("c");
 
-const rect = new Rect({
-  left: 250,
-  top: 250,
-  fill: "red",
-  width: 500,
-  height: 500,
-  originX: "center",
-  originY: "center",
+const clipPath = new fabric.Circle({
+  radius: 40,
+  top: -40,
+  left: -40,
 });
+const rect = new fabric.Rect({
+  width: 200,
+  height: 100,
+  fill: "red",
+});
+rect.clipPath = clipPath;
 
 canvas.add(rect);
 
-rect.set({
-  left: "300",
-});
-
-rect.setCoords();
-canvas.renderAll();
-
-const circle = new Circle({
-  left: 250,
-  top: 250,
-  fill: "blue",
-  radius: 250,
+const img = await fabric.FabricImage.fromURL("/unnamed.png");
+const clipPath1 = new fabric.Circle({
+  radius: 40,
   originX: "center",
   originY: "center",
 });
-
-canvas.add(circle);
+img.clipPath = clipPath1;
+canvas.add(img);
