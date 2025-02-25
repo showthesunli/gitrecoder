@@ -28,3 +28,42 @@ export async function captureScreen(): Promise<MediaStream> {
     }`);
   }
 }
+
+/**
+ * 创建并配置用于显示屏幕捕获流的视频元素
+ * 
+ * @param options 视频元素配置选项
+ * @returns 已绑定屏幕捕获流的视频元素Promise
+ * 
+ * @example
+ * createScreenCaptureVideo().then(video => {
+ *   document.body.appendChild(video);
+ * });
+ */
+export async function createScreenCaptureVideo(
+  options: { autoplay?: boolean; controls?: boolean; muted?: boolean } = {}
+): Promise<HTMLVideoElement> {
+  const video = document.createElement('video');
+  
+  // 设置默认视频属性（自动播放且静音以避免浏览器策略限制）
+  video.autoplay = options.autoplay ?? true;
+  video.controls = options.controls ?? false;
+  video.muted = options.muted ?? true;
+
+  try {
+    // 获取屏幕捕获流并绑定到视频元素
+    const stream = await captureScreen();
+    video.srcObject = stream;
+    
+    // 在流停止时自动清理资源
+    stream.getVideoTracks()[0].addEventListener('ended', () => {
+      video.srcObject = null;
+    });
+
+    return video;
+  } catch (error) {
+    // 捕获失败时移除视频引用
+    video.remove();
+    throw error;
+  }
+}
