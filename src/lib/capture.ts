@@ -1,6 +1,6 @@
 /**
  * Capture screen content and return media stream
- *
+ * 
  * @remarks
  * Uses browser's getDisplayMedia API for screen capture, defaults to 30fps video without audio
  *
