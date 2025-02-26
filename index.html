@@ -3,22 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>屏幕捕获工具</title>
   </head>
-  <body>
-    <div class="flex flex-col space-y-0.5 mt-2.5">
-      <div class="container w-full mx-auto flex justify-center">
-        <canvas
-          width="1080"
-          height="720"
-          class="border-2 border-slate-500"
-          id="c"
-        ></canvas>
+  <body class="bg-slate-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold text-center text-slate-800 mb-6">屏幕捕获与导出工具</h1>
+      
+      <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+        <div class="w-full flex justify-center">
+          <canvas
+            width="1080"
+            height="720"
+            class="border-2 border-slate-300 rounded-lg shadow-sm"
+            id="c"
+          ></canvas>
+        </div>
+      </div>
+      
+      <div class="flex flex-wrap gap-4 justify-center">
+        <button 
+          id="addScreenCapture" 
+          class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-sm flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+          </svg>
+          添加屏幕捕获
+        </button>
+        
+        <button 
+          id="exportCanvas2gif" 
+          class="bg-emerald-500 hover:bg-emerald-600 text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-sm flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+          导出GIF
+        </button>
       </div>
     </div>
-    <button id="addScreenCapture">添加屏幕捕获</button>
-    <br />
-    <button id="exportCanvas2gif">导出gif</button>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
