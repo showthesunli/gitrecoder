@@ -42,6 +42,27 @@
           }
         },
         {
+          "name": "chinese-output",
+          "description": "所有用户可见的输出必须使用中文",
+          "level": "error",
+          "check": {
+            "no": [
+              "non-chinese-strings",
+              "console.log-english",
+              "alert-english"
+            ],
+            "recommended": [
+              "i18n-functions",
+              "chinese-console"
+            ],
+            "note": "技术性字符串（如API请求字段、技术标识符）可豁免，仅限用户可见文本"
+          },
+          "example": {
+            "bad": "console.log('Error occurred'); alert('Save failed')",
+            "good": "console.log('发生错误'); alert('保存失败')"
+          }
+        },
+        {
           "name": "use-fabric-fabricimage",
           "description": "必须使用新版FabricImage代替旧版Image类",
           "level": "error",
