@@ -1,3 +1,16 @@
+/**
+ * @module 画布事件处理器模块
+ * @remarks
+ * 实现与画布交互相关的通用事件处理逻辑，采用高阶函数封装状态
+ * 包含滚轮缩放、拖拽平移等核心交互功能的纯函数实现
+ * 
+ * @example
+ * ```ts
+ * // 在画布初始化后绑定事件处理器
+ * const canvas = initializeCanvas();
+ * canvas.on('mouse:wheel', createWheelHandler(canvas));
+ * ```
+ */
 import { Point, Canvas, TEvent } from "fabric";
 import { calculateZoom } from "./utils";
 

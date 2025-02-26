@@ -1,3 +1,17 @@
+/**
+ * @module 画布核心模块
+ * @remarks
+ * 1. 扩展Fabric.js原生Canvas类型声明
+ * 2. 提供画布初始化工厂函数
+ * 3. 管理画布基础配置和状态扩展
+ * 
+ * @example
+ * ```ts
+ * // 初始化并挂载画布
+ * const canvas = initializeCanvas();
+ * document.body.appendChild(canvas.getElement());
+ * ```
+ */
 import { Canvas } from "fabric";
 
 // 扩展 fabric 类型声明，为 Canvas 添加拖拽状态跟踪属性
