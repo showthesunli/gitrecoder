@@ -77,13 +77,26 @@ export const exportToGIF = (canvas: fabric.Canvas, duration: number = 3000, fps:
 
   const frameInterval = 1000 / fps;
   const startTime = Date.now();
-
+  
   const captureFrame = () => {
     if (Date.now() - startTime < duration) {
-      const canvasElement = canvas.getElement();
-      gif.addFrame(canvasElement, { delay: frameInterval });
-      setTimeout(captureFrame, frameInterval);
+      // 创建临时图像元素
+      const img = new Image();
+      // 使用 toDataURL 获取完整的画布内容
+      img.src = canvas.toDataURL({
+        format: 'png',
+        quality: 1
+      });
+      
+      img.onload = () => {
+        // 将图像添加到 GIF
+        gif.addFrame(img, { delay: frameInterval, copy: true });
+        
+        // 安排下一帧捕获
+        setTimeout(captureFrame, frameInterval);
+      };
     } else {
+      // 完成捕获，渲染 GIF
       gif.render();
     }
   };
@@ -97,6 +110,7 @@ export const exportToGIF = (canvas: fabric.Canvas, duration: number = 3000, fps:
     URL.revokeObjectURL(url);
   });
 
+  // 开始捕获第一帧
   captureFrame();
 };
 
