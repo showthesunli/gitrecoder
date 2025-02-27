@@ -7,33 +7,139 @@
   </head>
   <body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen">
     <div class="max-w-7xl mx-auto px-4 py-4">
-      <!-- 顶部工具栏 -->
-      <div class="flex justify-center gap-4 mb-6">
-        <button 
-          id="addScreenCapture" 
-          class="group relative overflow-hidden bg-white hover:bg-blue-50 text-blue-600 font-medium py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg border border-blue-200 flex items-center gap-2"
-        >
-          <span class="absolute inset-0 w-3 bg-blue-500 group-hover:w-full transition-all duration-300 opacity-20"></span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-            <line x1="8" y1="21" x2="16" y2="21"></line>
-            <line x1="12" y1="17" x2="12" y2="21"></line>
-          </svg>
-          <span class="relative z-10">添加屏幕捕获</span>
-        </button>
-        
-        <button 
-          id="exportCanvas2gif" 
-          class="group relative overflow-hidden bg-white hover:bg-emerald-50 text-emerald-600 font-medium py-2 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg border border-emerald-200 flex items-center gap-2"
-        >
-          <span class="absolute inset-0 w-3 bg-emerald-500 group-hover:w-full transition-all duration-300 opacity-20"></span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-          <span class="relative z-10">导出GIF</span>
-        </button>
+      <!-- 顶部工具栏 - 更新为更完整的工具栏 -->
+      <div class="bg-white shadow-md rounded-lg mb-6">
+        <div class="flex items-center px-4 py-2 gap-2 overflow-x-auto">
+          <!-- 添加屏幕捕获按钮 -->
+          <button 
+            id="addScreenCapture" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="添加屏幕捕获"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </button>
+          
+          <!-- 分隔线 -->
+          <div class="h-6 w-px bg-gray-300"></div>
+          
+          <!-- 添加图片按钮 -->
+          <button 
+            id="addImage" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="添加图片"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+          
+          <!-- 添加文本按钮 -->
+          <button 
+            id="addText" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="添加文本"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 7 4 4 20 4 20 7"></polyline>
+              <line x1="9" y1="20" x2="15" y2="20"></line>
+              <line x1="12" y1="4" x2="12" y2="20"></line>
+            </svg>
+          </button>
+          
+          <!-- 添加形状按钮 -->
+          <button 
+            id="addShape" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="添加形状"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </button>
+          
+          <!-- 添加绘图工具按钮 -->
+          <button 
+            id="drawTool" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="绘图工具"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+              <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+              <path d="M2 2l7.586 7.586"></path>
+              <circle cx="11" cy="11" r="2"></circle>
+            </svg>
+          </button>
+          
+          <!-- 分隔线 -->
+          <div class="h-6 w-px bg-gray-300"></div>
+          
+          <!-- 撤销按钮 -->
+          <button 
+            id="undo" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="撤销"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="1 4 1 10 7 10"></polyline>
+              <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+            </svg>
+          </button>
+          
+          <!-- 重做按钮 -->
+          <button 
+            id="redo" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="重做"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+          </button>
+          
+          <!-- 分隔线 -->
+          <div class="h-6 w-px bg-gray-300"></div>
+          
+          <!-- 删除按钮 -->
+          <button 
+            id="delete" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="删除"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <line x1="10" y1="11" x2="10" y2="17"></line>
+              <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
+          </button>
+          
+          <!-- 分隔线 -->
+          <div class="h-6 w-px bg-gray-300"></div>
+          
+          <!-- 导出GIF按钮 -->
+          <button 
+            id="exportCanvas2gif" 
+            class="flex items-center justify-center p-2 rounded hover:bg-gray-100 transition-colors"
+            title="导出GIF"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </button>
+        </div>
       </div>
       
       <!-- 画布区域 -->
