@@ -85,7 +85,8 @@ export const exportToGIF = (canvas: fabric.Canvas, duration: number = 3000, fps:
       // 使用 toDataURL 获取完整的画布内容
       img.src = canvas.toDataURL({
         format: 'png',
-        quality: 1
+        quality: 1,
+        multiplier: 1
       });
       
       img.onload = () => {
