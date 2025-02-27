@@ -29,5 +29,22 @@ declare module "fabric" {
  * 集中管理画布创建逻辑，便于后续扩展配置项
  */
 export const initializeCanvas = (): Canvas => {
-  return new Canvas("c");  // 'c' 对应 HTML canvas 元素的 ID
+  const canvas = new Canvas("c");  // 'c' 对应 HTML canvas 元素的 ID
+  
+  // 获取 canvas 元素
+  const canvasElement = document.getElementById("c") as HTMLCanvasElement;
+  
+  // 获取计算后的 CSS 尺寸
+  const computedStyle = window.getComputedStyle(canvasElement);
+  const cssWidth = parseInt(computedStyle.width, 10);
+  const cssHeight = parseInt(computedStyle.height, 10);
+  
+  // 设置 canvas 的 HTML 属性以匹配 CSS 尺寸
+  canvasElement.width = cssWidth;
+  canvasElement.height = cssHeight;
+  
+  // 通知 Fabric.js 尺寸已更改
+  canvas.setDimensions({ width: cssWidth, height: cssHeight });
+  
+  return canvas;
 };
